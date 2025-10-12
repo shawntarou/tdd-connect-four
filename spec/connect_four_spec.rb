@@ -19,4 +19,49 @@ describe GameBoard do
       end
     end
   end
+
+  describe '#place_piece' do
+    subject(:board) { described_class.new() }
+
+    context 'when there are no pieces on the board' do
+      it 'places the piece in the bottom row' do
+        expected_board = [['*', '*', '*', '*', '*', '*', '*'], 
+                          ['*', '*', '*', '*', '*', '*', '*'], 
+                          ['*', '*', '*', '*', '*', '*', '*'], 
+                          ['*', '*', '*', '*', '*', '*', '*'], 
+                          ['*', '*', '*', '*', '*', '*', '*'], 
+                          ['*', '*', '*', '*', '*', '*', '㉧']]
+
+        board.place_piece(7, '㉧')
+        expect(board.board).to eq(expected_board)
+      end
+    end
+
+    context 'when there are three pieces already in selected column' do
+      it 'places piece in third row' do
+        expected_board = [['*', '*', '*', '*', '*', '*', '*'], 
+                          ['*', '*', '*', '*', '*', '*', '*'], 
+                          ['*', '*', '*', '㉧', '*', '*', '*'], 
+                          ['*', '*', '*', '㉧', '*', '*', '*'], 
+                          ['*', '*', '*', '㉧', '*', '*', '*'], 
+                          ['*', '*', '*', '㉧', '*', '*', '*']]
+        
+        4.times do
+          board.place_piece(4, '㉧')
+        end
+
+        expect(board.board).to eq(expected_board)
+      end
+    end
+  end
+end
+
+describe ConnectFourGame do
+  describe '#valid_move?' do
+    context '' do
+      it '' do
+
+      end
+    end
+  end
 end

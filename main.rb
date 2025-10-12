@@ -21,6 +21,8 @@ ConnectFourGame
 
 
 class GameBoard
+  attr_reader :board
+
   def initialize(rows = 6, columns = 7)
     @board = Array.new(rows) { Array.new(columns) { '*' } }
   end
@@ -31,10 +33,15 @@ class GameBoard
     end
   end
 
-  def place_piece
-    #code this
-  end
+  def place_piece(column_num, piece)
+    board_column_num = column_num - 1
 
+    @board.reverse_each.with_index do |row, index|
+      if row[board_column_num] == "*" 
+        row[board_column_num] = piece 
+        return
+      end
+    end
   end
 end
 
@@ -46,7 +53,21 @@ class Player
 end
 
 class ConnectFourGame
-  # not yet
+  def initalize(board, player_one, player_two)
+    @board = board
+    @player_one = player_one
+    @player_two = player_two
+  end
+
+  def valid_move?(column_num)
+    @board.reverse_each.with_index do |row, index|
+      if row[board_column_num] == "*" 
+        return true
+      end
+    end
+
+    false
+  end
 end
 
 puts '㉧ ㉨'
