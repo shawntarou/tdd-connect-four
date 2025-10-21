@@ -22,7 +22,8 @@ ConnectFourGame
 require 'colorize'
 
 class GameBoard
-  attr_reader :board, :rows, :columns
+  attr_accessor :board
+  attr_reader :rows, :columns
 
   def initialize(rows = 6, columns = 7)
     @rows = rows
@@ -85,18 +86,29 @@ class ConnectFourGame
     # vertical check
     (board.rows - 3).times do |i|
       (board.columns).times do |j|
-        if board.board[i][j] == player.piece && board.board[i+1][j] && board.board[i+2][j] && board.board[i+3][j]
+        if board.board[i][j] == player.piece && board.board[i+1][j] == player.piece && board.board[i+2][j] == player.piece && board.board[i+3][j] == player.piece
           return true
         end
       end
     end
 
-    # ascending diagonal check
-    # (board.rows).times do |i|
-    #   (board.columns - 3).times do |j|
+    # ascending diagonal check (bottom left -> top right)
+    (3...board.rows).each do |i|
+      (board.columns - 3).times do |j|
+        if board.board[i][j] == player.piece && board.board[i-1][j+1] == player.piece && board.board[i-2][j+2] == player.piece && board.board[i-3][j+3] == player.piece
+          return true
+        end
+      end
+    end
 
-    #   end
-    # end
+    # descending diagonal check (bottom right -> top left)
+    (3...board.rows).each do |i|
+      (board.columns).times do |j|
+        if board.board[i][j] == player.piece && board.board[i-1][j-1] == player.piece && board.board[i-2][j-2] == player.piece && board.board[i-3][j-3] == player.piece
+          return true
+        end
+      end
+    end
 
     false
   end
@@ -137,20 +149,45 @@ end
 # game_board = GameBoard.new
 # game_board.print_board
 
-player = Player.new('Player 1', '*', 1)
+player_sign = '^'.colorize(:blue)
+player = Player.new('Player 1', player_sign, 1)
 game = ConnectFourGame.new
 horizontal_board = GameBoard.new
 (1...5).each do |i|
-  horizontal_board.place_piece(i ,'*'.colorize(:blue))
+  horizontal_board.place_piece(i, player_sign)
 end
 
 vertical_board = GameBoard.new
 4.times do 
-  vertical_board.place_piece(4 ,'*'.colorize(:red))
+  vertical_board.place_piece(4 , player_sign)
 end
+
+ascending_diagonal_board = GameBoard.new
+ascending_diagonal_board.board = [['*', '*', '*', '*', '*', '*', '*'], 
+                                  ['*', '*', '*', '*', '*', '*', '*'], 
+                                  ['*', '*', '*', player_sign, '*', '*', '*'], 
+                                  ['*', '*', player_sign, '*', '*', '*', '*'], 
+                                  ['*', player_sign, '*', '*', '*', '*', '*'], 
+                                  [player_sign, '*', '*', '*', '*', '*', '*']]
+
+descending_diagonal_board = GameBoard.new
+descending_diagonal_board.board = [['*', '*', '*', player_sign, '*', '*', '*'], 
+                                  ['*', '*', '*', '*', player_sign, '*', '*'], 
+                                  ['*', '*', '*', '*', '*', player_sign, '*'], 
+                                  ['*', '*', '*', '*', '*', '*', player_sign], 
+                                  ['*', '*', '*', '*', '*', '*', '*'], 
+                                  ['*', '*', '*', '*', '*', '*', '*']]
+
 
 horizontal_board.print_board
 puts
 vertical_board.print_board
+puts
+ascending_diagonal_board.print_board
+puts
+descending_diagonal_board.print_board
+
 puts "Horizontal Check: #{game.win?(horizontal_board, player)}"
 puts "Vertical Check: #{(game.win?(vertical_board, player))}"
+puts "Ascending Diag Check: #{(game.win?(ascending_diagonal_board, player))}"
+puts "Descending Diag Check: #{(game.win?(descending_diagonal_board, player))}"
