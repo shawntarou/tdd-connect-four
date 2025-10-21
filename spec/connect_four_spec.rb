@@ -54,4 +54,35 @@ describe GameBoard do
       end
     end
   end
+
+  describe 'full?' do
+    subject(:board) { described_class.new() }
+
+    context 'when the board is full of pieces' do
+      it 'returns true' do
+        board.board = [['^', '㉧', '㉧', '^', '^', '㉧', '^'], 
+                      ['㉧', '^', '㉧', '㉧', '㉧', '^', '㉧'], 
+                      ['㉧', '㉧', '^', '^', '^', '㉧', '㉧'], 
+                      ['^', '^', '^', '㉧', '㉧', '^', '^'], 
+                      ['㉧', '㉧', '^', '^', '^', '㉧', '^'], 
+                      ['^', '^', '㉧', '㉧', '㉧', '^', '㉧']]
+
+        expect(board.full?).to eq(true)
+      end
+    end
+
+    context 'when the board has room for pieces'do
+      it 'returns false' do
+        board.board = [['*', '㉧', '㉧', '^', '^', '㉧', '^'], 
+                      ['㉧', '^', '㉧', '㉧', '㉧', '^', '㉧'], 
+                      ['㉧', '㉧', '^', '^', '^', '㉧', '㉧'], 
+                      ['^', '^', '^', '㉧', '㉧', '^', '^'], 
+                      ['㉧', '㉧', '^', '^', '^', '㉧', '^'], 
+                      ['^', '^', '㉧', '㉧', '㉧', '^', '㉧']]
+
+
+        expect(board.full?).to eq(false)
+      end
+    end
+  end
 end

@@ -20,19 +20,48 @@ ConnectFourGame
 =end
 
 require 'colorize'
+require_relative 'player.rb'
+require_relative 'gameboard.rb'
 
 class ConnectFourGame
   attr_accessor  :player_one, :player_two
 
-  def initalize
+  def initialize
     @board = GameBoard.new
-    @player_one = Player.new('Player 1', '㉧', 1)
-    @player_two = Player.new('Player 2', '㉨', 2)
+    @player_one = Player.new('Player 1', '^'.colorize(:red), 1)
+    @player_two = Player.new('Player 2', '^'.colorize(:blue), 2)
   end
 
-  def start_game
+  # def start_game
+  #   get_player_name(@player_one)
+  #   get_player_name(@player_two)
 
-  end
+  #   puts
+  #   puts "#{@player_one.name} VS #{@player_two.name}"
+  #   puts "----START----\n".colorize(:red)
+
+  #   round_num = 0
+  #   loop do
+  #     puts "ROUND #{round_num += 1} - #{player_one.name}"
+
+  #     # PLAYER 1 TURN
+  #     @board.print_board
+  #     puts
+  #     puts "Pick from columns 1 - #{@board.columns}"
+  #     print '> '
+  #     player_choice = Integer(gets.chomp)
+  #     unless (valid_move?(player_choice))
+  #       puts "Pick from columns 1 - #{@board.columns}"
+  #       print '> '
+  #       player_choice = Integer(gets.chomp)
+  #     end
+  #     @board.place_piece(player_choice, @player_one.piece)
+
+      
+
+  #     break
+  #   end
+  # end
 
   private
   
@@ -87,8 +116,8 @@ class ConnectFourGame
   end
   
   def valid_move?(column_num)
-    @board.reverse_each.with_index do |row, index|
-      if row[board_column_num] == "*" 
+    @board.board.reverse_each.with_index do |row, index|
+      if row[column_num] == "*" 
         return true
       end
     end
@@ -96,6 +125,10 @@ class ConnectFourGame
     false
   end
 end
+
+# game = ConnectFourGame.new
+# game.start_game
+
 
 # game_board = GameBoard.new
 # game_board.print_board

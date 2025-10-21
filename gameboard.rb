@@ -1,5 +1,6 @@
 class GameBoard
-  attr_reader :board, :rows, :columns
+  attr_accessor :board
+  attr_reader :rows, :columns
 
   def initialize(rows = 6, columns = 7)
     @rows = rows
@@ -22,5 +23,17 @@ class GameBoard
         return
       end
     end
+  end
+
+  def full?
+    @board.reverse_each.with_index do |row, _|
+      row.each.with_index do |column, _|
+        if column == '*'
+          return false
+        end
+      end
+    end
+
+    true
   end
 end
