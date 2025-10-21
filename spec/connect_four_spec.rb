@@ -1,4 +1,4 @@
-require_relative '../main.rb'
+require_relative '../connectfourgame.rb'
 
 describe GameBoard do 
   describe '#print_board' do
@@ -54,8 +54,4 @@ describe GameBoard do
       end
     end
   end
-end
-
-describe ConnectFourGame do
-  subject(:game) { described_class.new() }
 end
