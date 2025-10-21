@@ -19,11 +19,14 @@ ConnectFourGame
 - Game Over method that prints winner's name
 =end
 
+require 'colorize'
 
 class GameBoard
-  attr_reader :board
+  attr_reader :board, :rows, :columns
 
   def initialize(rows = 6, columns = 7)
+    @rows = rows
+    @columns = columns
     @board = Array.new(rows) { Array.new(columns) { '*' } }
   end
 
@@ -46,7 +49,7 @@ class GameBoard
 end
 
 class Player
-  attr_accessor :name, :player_num
+  attr_accessor :name, :player_num, :piece
 
   def initialize(name, piece, player_num)
     @name = name
@@ -56,6 +59,8 @@ class Player
 end
 
 class ConnectFourGame
+  attr_accessor  :player_one, :player_two
+
   def initalize
     @board = GameBoard.new
     @player_one = Player.new('Player 1', '㉧', 1)
@@ -67,6 +72,35 @@ class ConnectFourGame
 
   end
   
+  def win?(board, player)
+    # horizontal check
+    (board.rows).times do |i|
+      (board.columns - 3).times do |j|
+        if board.board[i][j] == player.piece && board.board[i][j+1] == player.piece && board.board[i][j+2] == player.piece && board.board[i][j+3] == player.piece
+          return true
+        end
+      end
+    end
+
+    # vertical check
+    (board.rows - 3).times do |i|
+      (board.columns).times do |j|
+        if board.board[i][j] == player.piece && board.board[i+1][j] && board.board[i+2][j] && board.board[i+3][j]
+          return true
+        end
+      end
+    end
+
+    # ascending diagonal check
+    # (board.rows).times do |i|
+    #   (board.columns - 3).times do |j|
+
+    #   end
+    # end
+
+    false
+  end
+
   private
   
   def get_player_name(player)
@@ -103,9 +137,20 @@ end
 # game_board = GameBoard.new
 # game_board.print_board
 
-player_one = Player.new('George', '%', 1)
+player = Player.new('Player 1', '*', 1)
 game = ConnectFourGame.new
-game.get_player_name(player_one)
-puts
-puts player_one.name
+horizontal_board = GameBoard.new
+(1...5).each do |i|
+  horizontal_board.place_piece(i ,'*'.colorize(:blue))
+end
 
+vertical_board = GameBoard.new
+4.times do 
+  vertical_board.place_piece(4 ,'*'.colorize(:red))
+end
+
+horizontal_board.print_board
+puts
+vertical_board.print_board
+puts "Horizontal Check: #{game.win?(horizontal_board, player)}"
+puts "Vertical Check: #{(game.win?(vertical_board, player))}"

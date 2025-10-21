@@ -58,12 +58,4 @@ end
 
 describe ConnectFourGame do
   subject(:game) { described_class.new() }
-  describe '#get_player_name' do
-    context 'when player presses enter' do
-      it 'uses default name' do
-        allow($stdin).to receive(:gets).and_return('')
-        expect()
-      end
-    end
-  end
 end
