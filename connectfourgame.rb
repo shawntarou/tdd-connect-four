@@ -40,9 +40,11 @@ class ConnectFourGame
     
     system "clear"
 
-    puts
     puts "#{@player_one.name} VS #{@player_two.name}"
+    puts "LOADING BOARD\n".colorize(:yellow)
+    sleep(1)
     puts "----START----\n".colorize(:red)
+    sleep(0.5)
 
     round_num = 1
     won = false
@@ -51,6 +53,9 @@ class ConnectFourGame
 
     #GAME LOOP
     loop do
+      system "clear"
+
+      puts "#{@player_one.name} VS #{@player_two.name}\n\n"
       # PLAYER 1 TURN
       puts "ROUND #{round_num} - #{player_one.name}"
       @board.print_board
@@ -72,6 +77,7 @@ class ConnectFourGame
       
       system "clear" 
 
+      puts "#{@player_one.name} VS #{@player_two.name}\n\n"
       # PLAYER 2 TURN
       puts "ROUND #{round_num} - #{player_two.name}"
       @board.print_board
@@ -162,7 +168,10 @@ class ConnectFourGame
   private
 
   def print_win_message(winner)
-    puts "#{winner.name} IS THE WINNER!!".colorize(:green)
+    3.times do
+      puts "#{winner.name} IS THE WINNER!!".colorize(:green)
+      sleep(0.1)
+    end
   end
   
   def print_tie_message
