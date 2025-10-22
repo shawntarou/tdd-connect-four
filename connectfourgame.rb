@@ -33,8 +33,12 @@ class ConnectFourGame
   end
 
   def start_game
+    system "clear" 
     get_player_name(@player_one)
+    system "clear" 
     get_player_name(@player_two)
+    
+    system "clear"
 
     puts
     puts "#{@player_one.name} VS #{@player_two.name}"
@@ -65,6 +69,8 @@ class ConnectFourGame
         tied = true
         break
       end
+      
+      system "clear" 
 
       # PLAYER 2 TURN
       puts "ROUND #{round_num} - #{player_two.name}"
@@ -85,8 +91,12 @@ class ConnectFourGame
         break
       end
 
+      system "clear" 
+
       round_num += 1
     end
+
+    system "clear" 
 
     puts 'GAME OVER'
     @board.print_board
