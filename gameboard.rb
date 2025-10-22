@@ -26,11 +26,21 @@ class GameBoard
   end
 
   def full?
-    @board.reverse_each.with_index do |row, _|
-      row.each.with_index do |column, _|
+    @board.reverse_each do |row|
+      row.each do |column|
         if column == '*'
           return false
         end
+      end
+    end
+
+    true
+  end
+
+  def column_full?(column_num)
+    @board.each do |row|
+      if row[column_num - 1] == '*' 
+        return false
       end
     end
 

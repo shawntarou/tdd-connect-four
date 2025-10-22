@@ -32,38 +32,54 @@ class ConnectFourGame
     @player_two = Player.new('Player 2', '^'.colorize(:blue), 2)
   end
 
-  # def start_game
-  #   get_player_name(@player_one)
-  #   get_player_name(@player_two)
+  def start_game
+    get_player_name(@player_one)
+    get_player_name(@player_two)
 
-  #   puts
-  #   puts "#{@player_one.name} VS #{@player_two.name}"
-  #   puts "----START----\n".colorize(:red)
+    puts
+    puts "#{@player_one.name} VS #{@player_two.name}"
+    puts "----START----\n".colorize(:red)
 
-  #   round_num = 0
-  #   loop do
-  #     puts "ROUND #{round_num += 1} - #{player_one.name}"
+    round_num = 1
+    loop do
+      # PLAYER 1 TURN
+      puts "ROUND #{round_num} - #{player_one.name}"
+      @board.print_board
+      puts
+      player_choice = get_valid_choice
 
-  #     # PLAYER 1 TURN
-  #     @board.print_board
-  #     puts
-  #     puts "Pick from columns 1 - #{@board.columns}"
-  #     print '> '
-  #     player_choice = Integer(gets.chomp)
-  #     unless (valid_move?(player_choice))
-  #       puts "Pick from columns 1 - #{@board.columns}"
-  #       print '> '
-  #       player_choice = Integer(gets.chomp)
-  #     end
-  #     @board.place_piece(player_choice, @player_one.piece)
+      @board.place_piece(player_choice, @player_one.piece)
 
-      
+      # PLAYER 2 TURN
+      puts "ROUND #{round_num} - #{player_two.name}"
+      @board.print_board
+      puts
+      player_choice = get_valid_choice
 
-  #     break
-  #   end
-  # end
+      @board.place_piece(player_choice, @player_two.piece)
+
+      round_num += 1
+    end
+  end
 
   private
+  
+  def get_valid_choice
+    puts "Pick from columns 1 - #{@board.columns}"
+    print '> '
+
+    while player_choice = gets.chomp 
+      if player_choice.to_i.to_s == player_choice && player_choice.to_i >= 1 && player_choice.to_i <= @board.columns && @board.column_full?(player_choice.to_i) == false
+        player_choice = player_choice.to_i
+        break
+      else
+        puts "Pick from columns 1 - #{@board.columns}"
+        print '> '
+      end
+    end
+
+    player_choice
+  end
   
   def win?(board, player)
     # horizontal check
@@ -104,6 +120,14 @@ class ConnectFourGame
 
     false
   end
+
+  def tie?
+    if win? == false && board.full?
+      return true
+    end
+
+    false
+  end
   
   def get_player_name(player)
     puts "Player #{player.player_num} Name:"
@@ -113,16 +137,6 @@ class ConnectFourGame
     unless entered_name == ''
       player.name = entered_name
     end
-  end
-  
-  def valid_move?(column_num)
-    @board.board.reverse_each.with_index do |row, index|
-      if row[column_num] == "*" 
-        return true
-      end
-    end
-
-    false
   end
 end
 
