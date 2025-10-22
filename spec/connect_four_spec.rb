@@ -30,9 +30,9 @@ describe GameBoard do
                           ['*', '*', '*', '*', '*', '*', '*'], 
                           ['*', '*', '*', '*', '*', '*', '*'], 
                           ['*', '*', '*', '*', '*', '*', '*'], 
-                          ['*', '*', '*', '*', '*', '*', '㉧']]
+                          ['*', '*', '*', '*', '*', '*', '1']]
 
-        board.place_piece(7, '㉧')
+        board.place_piece(7, '1')
         expect(board.board).to eq(expected_board)
       end
     end
@@ -41,13 +41,13 @@ describe GameBoard do
       it 'places piece in third row' do
         expected_board = [['*', '*', '*', '*', '*', '*', '*'], 
                           ['*', '*', '*', '*', '*', '*', '*'], 
-                          ['*', '*', '*', '㉧', '*', '*', '*'], 
-                          ['*', '*', '*', '㉧', '*', '*', '*'], 
-                          ['*', '*', '*', '㉧', '*', '*', '*'], 
-                          ['*', '*', '*', '㉧', '*', '*', '*']]
+                          ['*', '*', '*', '1', '*', '*', '*'], 
+                          ['*', '*', '*', '1', '*', '*', '*'], 
+                          ['*', '*', '*', '1', '*', '*', '*'], 
+                          ['*', '*', '*', '1', '*', '*', '*']]
         
         4.times do
-          board.place_piece(4, '㉧')
+          board.place_piece(4, '1')
         end
 
         expect(board.board).to eq(expected_board)
@@ -55,33 +55,63 @@ describe GameBoard do
     end
   end
 
-  describe 'full?' do
+  describe '#full?' do
     subject(:board) { described_class.new() }
 
-    context 'when the board is full of pieces' do
+    context 'when the board is full' do
       it 'returns true' do
-        board.board = [['^', '㉧', '㉧', '^', '^', '㉧', '^'], 
-                      ['㉧', '^', '㉧', '㉧', '㉧', '^', '㉧'], 
-                      ['㉧', '㉧', '^', '^', '^', '㉧', '㉧'], 
-                      ['^', '^', '^', '㉧', '㉧', '^', '^'], 
-                      ['㉧', '㉧', '^', '^', '^', '㉧', '^'], 
-                      ['^', '^', '㉧', '㉧', '㉧', '^', '㉧']]
+        board.board = [['^', '1', '1', '^', '^', '1', '^'], 
+                      ['1', '^', '1', '1', '1', '^', '1'], 
+                      ['1', '1', '^', '^', '^', '1', '1'], 
+                      ['^', '^', '^', '1', '1', '^', '^'], 
+                      ['1', '1', '^', '^', '^', '1', '^'], 
+                      ['^', '^', '1', '1', '1', '^', '1']]
 
-        expect(board.full?).to eq(true)
+        expect(board.full?).to be(true)
       end
     end
 
-    context 'when the board has room for pieces'do
+    context 'when the board is not full'do
       it 'returns false' do
-        board.board = [['*', '㉧', '㉧', '^', '^', '㉧', '^'], 
-                      ['㉧', '^', '㉧', '㉧', '㉧', '^', '㉧'], 
-                      ['㉧', '㉧', '^', '^', '^', '㉧', '㉧'], 
-                      ['^', '^', '^', '㉧', '㉧', '^', '^'], 
-                      ['㉧', '㉧', '^', '^', '^', '㉧', '^'], 
-                      ['^', '^', '㉧', '㉧', '㉧', '^', '㉧']]
+        board.board = [['*', '1', '1', '^', '^', '1', '^'], 
+                      ['1', '^', '1', '1', '1', '^', '1'], 
+                      ['1', '1', '^', '^', '^', '1', '1'], 
+                      ['^', '^', '^', '1', '1', '^', '^'], 
+                      ['1', '1', '^', '^', '^', '1', '^'], 
+                      ['^', '^', '1', '1', '1', '^', '1']]
 
 
-        expect(board.full?).to eq(false)
+        expect(board.full?).to be(false)
+      end
+    end
+  end
+
+  describe '#column_full?' do
+    subject(:board) { described_class.new() }
+
+    context 'when selected column is full' do
+      it 'return true' do
+        board.board = [['*', '*', '*', '*', '*', '*', '1'], 
+                      ['*', '*', '*', '*', '*', '*', '1'], 
+                      ['*', '*', '*', '*', '*', '*', '1'], 
+                      ['*', '*', '*', '*', '*', '*', '1'], 
+                      ['*', '*', '*', '*', '*', '*', '1'], 
+                      ['*', '*', '*', '*', '*', '*', '1']]
+
+        expect(board.column_full?(7)).to be (true)
+      end
+    end
+
+    context 'when selected column is not full' do
+      it 'return false' do
+        board.board = [['*', '*', '*', '*', '*', '*', '*'], 
+                      ['*', '*', '*', '*', '*', '*', '*'], 
+                      ['*', '*', '*', '*', '*', '*', '1'], 
+                      ['*', '*', '*', '*', '*', '*', '1'], 
+                      ['*', '*', '*', '*', '*', '*', '1'], 
+                      ['*', '*', '*', '*', '*', '*', '1']]
+
+        expect(board.column_full?(7)).to be (false)
       end
     end
   end
