@@ -1,4 +1,4 @@
-require_relative '../connectfourgame.rb'
+require_relative '../gameboard.rb'
 
 describe GameBoard do 
   describe '#print_board' do
@@ -90,7 +90,7 @@ describe GameBoard do
     subject(:board) { described_class.new() }
 
     context 'when selected column is full' do
-      it 'return true' do
+      it 'returns true' do
         board.board = [['*', '*', '*', '*', '*', '*', '1'], 
                       ['*', '*', '*', '*', '*', '*', '1'], 
                       ['*', '*', '*', '*', '*', '*', '1'], 
@@ -103,7 +103,7 @@ describe GameBoard do
     end
 
     context 'when selected column is not full' do
-      it 'return false' do
+      it 'returns false' do
         board.board = [['*', '*', '*', '*', '*', '*', '*'], 
                       ['*', '*', '*', '*', '*', '*', '*'], 
                       ['*', '*', '*', '*', '*', '*', '1'], 
