@@ -24,7 +24,7 @@ require_relative 'player.rb'
 require_relative 'gameboard.rb'
 
 class ConnectFourGame
-  attr_accessor  :player_one, :player_two
+  attr_accessor  :player_one, :player_two, :board
 
   def initialize
     @board = GameBoard.new
@@ -41,6 +41,11 @@ class ConnectFourGame
     puts "----START----\n".colorize(:red)
 
     round_num = 1
+    won = false
+    winner = nil
+    tied = false
+
+    #GAME LOOP
     loop do
       # PLAYER 1 TURN
       puts "ROUND #{round_num} - #{player_one.name}"
@@ -50,6 +55,17 @@ class ConnectFourGame
 
       @board.place_piece(player_choice, @player_one.piece)
 
+      if win?(@board, @player_one)
+        won = true
+        winner = @player_one
+        break
+      end
+      
+      if tie?(@board, @player_one, @player_two)
+        tied = true
+        break
+      end
+
       # PLAYER 2 TURN
       puts "ROUND #{round_num} - #{player_two.name}"
       @board.print_board
@@ -58,29 +74,32 @@ class ConnectFourGame
 
       @board.place_piece(player_choice, @player_two.piece)
 
+      if win?(@board, @player_two)
+        won = true
+        winner = @player_two
+        break
+      end
+      
+      if tie?(@board, @player_one, @player_two)
+        tied = true
+        break
+      end
+
       round_num += 1
     end
-  end
 
-  private
-  
-  def get_valid_choice
-    puts "Pick from columns 1 - #{@board.columns}"
-    print '> '
-
-    while player_choice = gets.chomp 
-      if player_choice.to_i.to_s == player_choice && player_choice.to_i >= 1 && player_choice.to_i <= @board.columns && @board.column_full?(player_choice.to_i) == false
-        player_choice = player_choice.to_i
-        break
-      else
-        puts "Pick from columns 1 - #{@board.columns}"
-        print '> '
-      end
+    @board.print_board
+    
+    if won
+      print_win_message(winner)
+    end
+    
+    if tied
+      print_tie_message
     end
 
-    player_choice
   end
-  
+
   def win?(board, player)
     # horizontal check
     (board.rows).times do |i|
@@ -111,7 +130,7 @@ class ConnectFourGame
 
     # descending diagonal check (bottom right -> top left)
     (3...board.rows).each do |i|
-      (board.columns).times do |j|
+      (3...board.columns).each do |j|
         if board.board[i][j] == player.piece && board.board[i-1][j-1] == player.piece && board.board[i-2][j-2] == player.piece && board.board[i-3][j-3] == player.piece
           return true
         end
@@ -120,13 +139,44 @@ class ConnectFourGame
 
     false
   end
-
-  def tie?
-    if win? == false && board.full?
+  
+  def tie?(board, player_one, player_two)
+    if win?(board, player_one) == false && win?(board, player_two) == false && board.full?
       return true
     end
 
     false
+  end
+
+  private
+
+  def print_win_message(winner)
+    loop do # infinitely loops the win message
+      puts "#{winner.name} IS THE WINNER!!".colorize(:green)
+    end
+  end
+  
+  def print_tie_message
+    puts 'TIED - NO CONTEST'
+  end
+  
+  def get_valid_choice
+    puts "Pick from columns 1 - #{@board.columns}"
+    print '> '
+
+    while player_choice = gets.chomp 
+      if player_choice.to_i.to_s == player_choice && player_choice.to_i >= 1 && player_choice.to_i <= @board.columns && @board.column_full?(player_choice.to_i) == false
+        player_choice = player_choice.to_i
+        break
+      else
+        puts "Pick from columns 1 - #{@board.columns}"
+        print '> '
+      end
+    end
+    
+    puts
+
+    player_choice
   end
   
   def get_player_name(player)
@@ -140,8 +190,19 @@ class ConnectFourGame
   end
 end
 
-# game = ConnectFourGame.new
-# game.start_game
+# player = Player.new('Player 1', '1', 1)
+game = ConnectFourGame.new
+game.start_game
+# board = GameBoard.new
+# board.board = [['1', '^', '^', '*', '*', '^', '^'], 
+#               ['^', '1', '^', '1', '*', '1', '1'], 
+#               ['^', '^', '1', '1', '1', '^', '^'], 
+#               ['1', '1', '1', '^', '^', '1', '1'], 
+#               ['^', '^', '1', '1', '1', '^', '1'], 
+#               ['1', '1', '^', '^', '^', '1', '^']]
+# board.print_board
+
+# puts game.win?(board, player)
 
 
 # game_board = GameBoard.new
