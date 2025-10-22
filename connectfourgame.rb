@@ -152,9 +152,7 @@ class ConnectFourGame
   private
 
   def print_win_message(winner)
-    # loop do # infinitely loops the win message
-      puts "#{winner.name} IS THE WINNER!!".colorize(:green)
-    # end
+    puts "#{winner.name} IS THE WINNER!!".colorize(:green)
   end
   
   def print_tie_message
