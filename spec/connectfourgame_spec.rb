@@ -1,6 +1,4 @@
 require_relative '../connectfourgame.rb'
-require_relative '../gameboard.rb'
-require_relative '../player.rb'
 
 describe ConnectFourGame do
   describe('#tie?') do

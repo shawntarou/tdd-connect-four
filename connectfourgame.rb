@@ -88,6 +88,7 @@ class ConnectFourGame
       round_num += 1
     end
 
+    puts 'GAME OVER'
     @board.print_board
     
     if won
@@ -151,13 +152,13 @@ class ConnectFourGame
   private
 
   def print_win_message(winner)
-    loop do # infinitely loops the win message
+    # loop do # infinitely loops the win message
       puts "#{winner.name} IS THE WINNER!!".colorize(:green)
-    end
+    # end
   end
   
   def print_tie_message
-    puts 'TIED - NO CONTEST'
+    puts 'TIE - NO CONTEST'
   end
   
   def get_valid_choice
@@ -189,64 +190,3 @@ class ConnectFourGame
     end
   end
 end
-
-# player = Player.new('Player 1', '1', 1)
-game = ConnectFourGame.new
-game.start_game
-# board = GameBoard.new
-# board.board = [['1', '^', '^', '*', '*', '^', '^'], 
-#               ['^', '1', '^', '1', '*', '1', '1'], 
-#               ['^', '^', '1', '1', '1', '^', '^'], 
-#               ['1', '1', '1', '^', '^', '1', '1'], 
-#               ['^', '^', '1', '1', '1', '^', '1'], 
-#               ['1', '1', '^', '^', '^', '1', '^']]
-# board.print_board
-
-# puts game.win?(board, player)
-
-
-# game_board = GameBoard.new
-# game_board.print_board
-
-# player_sign = '^'.colorize(:blue)
-# player = Player.new('Player 1', player_sign, 1)
-# game = ConnectFourGame.new
-# horizontal_board = GameBoard.new
-# (1...5).each do |i|
-#   horizontal_board.place_piece(i, player_sign)
-# end
-
-# vertical_board = GameBoard.new
-# 4.times do 
-#   vertical_board.place_piece(4 , player_sign)
-# end
-
-# ascending_diagonal_board = GameBoard.new
-# ascending_diagonal_board.board = [['*', '*', '*', '*', '*', '*', '*'], 
-#                                   ['*', '*', '*', '*', '*', '*', '*'], 
-#                                   ['*', '*', '*', player_sign, '*', '*', '*'], 
-#                                   ['*', '*', player_sign, '*', '*', '*', '*'], 
-#                                   ['*', player_sign, '*', '*', '*', '*', '*'], 
-#                                   [player_sign, '*', '*', '*', '*', '*', '*']]
-
-# descending_diagonal_board = GameBoard.new
-# descending_diagonal_board.board = [['*', '*', '*', player_sign, '*', '*', '*'], 
-#                                   ['*', '*', '*', '*', player_sign, '*', '*'], 
-#                                   ['*', '*', '*', '*', '*', player_sign, '*'], 
-#                                   ['*', '*', '*', '*', '*', '*', player_sign], 
-#                                   ['*', '*', '*', '*', '*', '*', '*'], 
-#                                   ['*', '*', '*', '*', '*', '*', '*']]
-
-
-# horizontal_board.print_board
-# puts
-# vertical_board.print_board
-# puts
-# ascending_diagonal_board.print_board
-# puts
-# descending_diagonal_board.print_board
-
-# puts "Horizontal Check: #{game.win?(horizontal_board, player)}"
-# puts "Vertical Check: #{(game.win?(vertical_board, player))}"
-# puts "Ascending Diag Check: #{(game.win?(ascending_diagonal_board, player))}"
-# puts "Descending Diag Check: #{(game.win?(descending_diagonal_board, player))}"
