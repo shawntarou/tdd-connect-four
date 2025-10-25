@@ -27,7 +27,6 @@ class ConnectFourGame
   attr_accessor  :player_one, :player_two, :board
 
   def initialize
-    @board = GameBoard.new
     @player_one = Player.new('Player 1', '^'.colorize(:red), 1)
     @player_two = Player.new('Player 2', '^'.colorize(:blue), 2)
   end
@@ -37,6 +36,15 @@ class ConnectFourGame
     get_player_name(@player_one)
     system "clear" 
     get_player_name(@player_two)
+    system "clear" 
+
+    board_size_list = get_board_size_list
+    rows = board_size_list[0]
+    columns = board_size_list[1]
+    @board = GameBoard.new(rows, columns)
+
+    puts @board.rows
+    puts @board.columns
     
     system "clear"
 
@@ -206,4 +214,29 @@ class ConnectFourGame
       player.name = entered_name
     end
   end
+
+  def get_board_size_list
+    puts "Board Size:"
+    puts "Press Enter For Default Board Size - 6x7"
+    print '> '
+    entered_size_list = [6, 7]
+
+    while entered_size = gets.chomp
+      if entered_size == ''
+        break
+      end
+
+      if (entered_size.include? 'x') && Integer(entered_size_list[0], exception: false) && Integer(entered_size_list[1], exception: false)
+        entered_size_list = entered_size.split('x').map(&:to_i)
+        break
+      else
+        puts "Board Size:"
+        puts "Press Enter For Default Board Size - 6x7"
+        print '> '
+      end
+    end
+
+    entered_size_list
+  end
 end
+
